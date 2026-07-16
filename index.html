@@ -227,8 +227,14 @@
     .msg.bot { background: #fff; border: 1px solid #eee; align-self: flex-start; }
     .msg.user { background: var(--primary); color: #fff; align-self: flex-end; }
     
+    .menu-icon { display: none; font-size: 2rem; cursor: pointer; color: var(--primary); user-select: none; }
+    
     /* Responsiveness (Mobile & Tablets) */
     @media (max-width: 768px) {
+      .menu-icon { display: block; }
+      .nav-links { display: none; flex-direction: column; width: 100%; text-align: center; background: #fff; padding: 1rem 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: absolute; top: 100%; left: 0; }
+      .nav-links.active { display: flex; }
+      .navbar { flex-wrap: wrap; position: relative; }
       .rol-medico { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; padding: 0 10px; }
       .doctor-row { padding: 1rem 0.5rem; }
       .doc-photo { width: 60px; height: 60px; }
@@ -256,10 +262,12 @@
 
   <nav class="navbar">
     <div class="logo">🩺 Clínica de los Vásquez</div>
-    <div class="nav-links">
-      <a href="#especialidades">Especialidades</a>
-      <a href="#rol">Staff Médico</a>
-      <a href="#promociones">Promociones</a>
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <div class="nav-links" id="nav-links">
+      <a href="#especialidades" onclick="toggleMenu()">Especialidades</a>
+      <a href="#staff" onclick="toggleMenu()">Staff Médico</a>
+      <a href="#rol" onclick="toggleMenu()">Médicos Hoy</a>
+      <a href="#promociones" onclick="toggleMenu()">Promociones</a>
       <a href="https://wa.me/51974071766?text=Hola,%20quiero%20agendar%20una%20cita" style="background: #0f766e; color: #fff; padding: 0.5rem 1rem; border-radius: 6px; font-weight: bold;">Agendar por WhatsApp</a>
     </div>
   </nav>
@@ -295,6 +303,13 @@
   <section class="section" id="especialidades">
     <h2 class="section-title" onclick="toggleSection('specialties-list', this)">Nuestras Especialidades</h2>
     <div class="rol-medico collapsible-content" id="specialties-list">
+      <!-- Inyectado vía JS -->
+    </div>
+  </section>
+
+  <section class="section" style="background: #fff;" id="staff">
+    <h2 class="section-title" onclick="toggleSection('staff-list', this)">Nuestro Staff Médico</h2>
+    <div class="rol-medico collapsible-content" id="staff-list">
       <!-- Inyectado vía JS -->
     </div>
   </section>
@@ -467,26 +482,44 @@
         );
         
         if (todayDocs.length === 0) {
-          container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No hay médicos programados para hoy.</p>';
-          return;
+          document.getElementById('doctors-schedule').innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No hay médicos programados para hoy.</p>';
         }
 
-        const randomPhotos = [
-          'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=128&h=128&fit=crop&q=80',
-          'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=128&h=128&fit=crop&q=80',
-          'https://images.unsplash.com/photo-1594824436998-a62629b35b6b?w=128&h=128&fit=crop&q=80',
-          'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=128&h=128&fit=crop&q=80',
-          'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=128&h=128&fit=crop&q=80'
+        const photos = [
+          'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=150&h=150',
+          'https://images.unsplash.com/photo-1594824432257-3a131b740e53?auto=format&fit=crop&q=80&w=150&h=150',
+          'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=150&h=150',
+          'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=150&h=150',
+          'https://images.unsplash.com/photo-1537368910025-702800faa86b?auto=format&fit=crop&q=80&w=150&h=150'
         ];
+        
+        const staffList = document.getElementById('staff-list');
+        staffList.innerHTML = '';
+        if (docs.length === 0) {
+           staffList.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay médicos registrados.</p>';
+        } else {
+           docs.forEach((doc, i) => {
+              const fakeCMP = `CMP: ${Math.floor(10000 + doc.id * 1234)}`;
+              staffList.innerHTML += `
+                <div class="doctor-row">
+                  <img src="${photos[i % photos.length]}" alt="Doctor" class="doc-photo">
+                  <div class="doc-name">${doc.name}</div>
+                  <div class="doc-spec">${doc.specialty || 'General'}</div>
+                  <div class="doc-hours">${fakeCMP}</div>
+                </div>
+              `;
+           });
+        }
 
+        const container = document.getElementById('doctors-schedule');
         container.innerHTML = todayDocs.map((d, index) => {
           let hoursDisplay = d.schedule_rules;
           if (d.schedule_rules.includes(' | ')) {
             hoursDisplay = d.schedule_rules.split(' | ')[1];
           }
           
-          const fallbackIndex = (d.id || index) % randomPhotos.length;
-          const defaultAvatar = randomPhotos[fallbackIndex];
+          const fallbackIndex = (d.id || index) % photos.length;
+          const defaultAvatar = photos[fallbackIndex];
           // Intenta cargar la foto real de la carpeta, si falla usa el avatar generado
           const photoUrl = `img/publicidad/fotos_rol/${d.id}/foto.jpg`;
           
@@ -640,6 +673,14 @@
         chatBody.innerHTML += `<div class="msg bot">Procesando tu solicitud... En breve te responderemos.</div>`;
         chatBody.scrollTop = chatBody.scrollHeight;
       }, 1000);
+    }
+  </script>
+  <script>
+    function toggleMenu() {
+      const navLinks = document.getElementById('nav-links');
+      if(window.innerWidth <= 768) {
+        navLinks.classList.toggle('active');
+      }
     }
   </script>
 </body>
