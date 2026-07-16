@@ -197,7 +197,7 @@
 
     /* Chat Widget (Improved) */
     .chat-widget {
-      position: fixed; bottom: 100px; right: 2rem; z-index: 9999;
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
       display: flex; flex-direction: column; align-items: flex-end;
     }
     .chat-toggle {
@@ -208,7 +208,8 @@
     }
     .chat-toggle:hover { transform: scale(1.05); }
     .chat-window {
-      width: 300px; height: 400px; background: #fff; border-radius: 12px;
+      width: 350px; height: 500px; max-width: calc(100vw - 4rem); max-height: calc(100vh - 120px);
+      background: #fff; border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column;
       margin-bottom: 15px; border: 1px solid #eee; overflow: hidden;
     }
@@ -238,8 +239,8 @@
       .form-group[style*="display: flex"] > div { margin-bottom: 1rem; }
       .whatsapp-btn, .chat-toggle { width: 50px; height: 50px; font-size: 1.5rem; }
       .whatsapp-btn { bottom: 1.5rem; right: 1.5rem; }
-      .chat-widget { bottom: 80px; right: 1.5rem; }
-      .chat-window { width: 260px; height: 350px; }
+      .chat-widget { bottom: 1.5rem; right: 1.5rem; }
+      .chat-window { max-width: calc(100vw - 3rem); max-height: calc(100vh - 100px); }
       .modal { padding: 1.5rem; }
       .modal-actions { flex-direction: column; }
     }
