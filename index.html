@@ -499,13 +499,13 @@
            staffList.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay médicos registrados.</p>';
         } else {
            docs.forEach((doc, i) => {
-              const fakeCMP = `CMP: ${Math.floor(10000 + doc.id * 1234)}`;
+              const cmpDisplay = doc.cmp ? `CMP: ${doc.cmp}` : 'CMP: -';
               staffList.innerHTML += `
                 <div class="doctor-row">
                   <img src="${photos[i % photos.length]}" alt="Doctor" class="doc-photo">
                   <div class="doc-name">${doc.name}</div>
                   <div class="doc-spec">${doc.specialty || 'General'}</div>
-                  <div class="doc-hours">${fakeCMP}</div>
+                  <div class="doc-hours">${cmpDisplay}</div>
                 </div>
               `;
            });
