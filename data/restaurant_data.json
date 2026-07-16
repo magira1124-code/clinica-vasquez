@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "Nirven Cuisine",
+    "description": "Una experiencia gastronómica inolvidable con lo mejor de la cocina peruana e internacional.",
+    "hours": "Lunes a Domingo: 12:00 PM - 11:00 PM"
+  },
+  "menu": [
+    {
+      "category": "Entradas",
+      "items": [
+        { "name": "Ceviche Clásico", "description": "Pesca del día, leche de tigre, ají limo, camote y choclo.", "price": 45 },
+        { "name": "Causa Limeña", "description": "Masa de papa amarilla, ají amarillo, rellena de pulpa de cangrejo.", "price": 35 }
+      ]
+    },
+    {
+      "category": "Fondos",
+      "items": [
+        { "name": "Lomo Saltado", "description": "Lomo fino al wok, cebolla, tomate, papas fritas y arroz.", "price": 65 },
+        { "name": "Risotto de Quinua", "description": "Quinua cremosa con hongos porcón y medallón de lomo.", "price": 55 }
+      ]
+    },
+    {
+      "category": "Postres",
+      "items": [
+        { "name": "Suspiro a la Limeña", "description": "Manjar blanco de yemas con merengue al oporto.", "price": 25 },
+        { "name": "Volcán de Chocolate", "description": "Con centro líquido y helado de vainilla artesanal.", "price": 30 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+const hotelData = {
+  "info": {
+    "name": "Nirven Grand Hotel",
+    "description": "Lujo, confort y entretenimiento para toda la familia",
+    "total_rooms": 56,
+    "amenities": [
+      { "id": "pool_heated", "name": "Piscina Temperada", "icon": "🏊" },
+      { "id": "pool_games", "name": "Piscina con Juegos y Tobogán", "icon": "🌊" },
+      { "id": "pool_relax", "name": "3 Piscinas de Relajación", "icon": "🌴" },
+      { "id": "cinema_2d", "name": "Cine 2D", "icon": "🎬" },
+      { "id": "cinema_9d", "name": "Cine 9D (Exclusivo en Perú)", "icon": "🎢" },
+      { "id": "games", "name": "Juegos Estructurales", "icon": "🏰" }
+    ]
+  },
+  "rooms": [
+    {
+      "id": "cabaña",
+      "name": "Cabaña Rústica Premium",
+      "type": "Cabaña",
+      "quantity": 20,
+      "base_price": 280,
+      "description": "Hermosa cabaña independiente rodeada de naturaleza. Ideal para familias o parejas que buscan privacidad absoluta.",
+      "capacity": "Hasta 4 personas",
+      "features": ["1 Cama King", "2 Camas Individuales", "Terraza privada", "Vista al jardín", "Jacuzzi exterior"]
+    },
+    {
+      "id": "terraza_std",
+      "name": "Suite Terrazas Elegance",
+      "type": "Terraza",
+      "quantity": 30,
+      "base_price": 240,
+      "description": "Ubicada en nuestro exclusivo edificio de dos pisos 'Terrazas'. Confort moderno con balcón y vista panorámica a las piscinas.",
+      "capacity": "Hasta 2 personas",
+      "features": ["1 Cama Queen", "Balcón con vista", "Smart TV 55\"", "Minibar"]
+    },
+    {
+      "id": "bungalow",
+      "name": "Bungalow Presidencial Familiar",
+      "type": "Bungalow",
+      "quantity": 6,
+      "base_price": 380,
+      "description": "Espacio amplio con todas las comodidades de casa. Perfecto para estadías largas, retiros de lujo o grupos grandes.",
+      "capacity": "Hasta 6 personas",
+      "features": ["2 Habitaciones", "Cocina equipada", "Sala de estar", "Acceso directo a piscina temperada"]
+    }
+  ]
+};

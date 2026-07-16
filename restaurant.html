@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nirven Cuisine | Experiencia Gastronómica</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+    
+    :root {
+      --primary: #8b0000;
+      --bg: #1a1a1a;
+      --text: #fff;
+      --accent: #d4af37;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg); color: var(--text);
+      font-family: 'Lato', sans-serif; overflow-x: hidden;
+    }
+    h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+    
+    .navbar {
+      background: rgba(0,0,0,0.8); padding: 1.5rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .logo { font-size: 2rem; color: var(--accent); font-style: italic; }
+    
+    .hero {
+      height: 70vh; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; text-align: center;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+    }
+    
+    .hero h1 { font-size: 4.5rem; margin-bottom: 1rem; color: var(--accent); }
+    .hero p { font-size: 1.2rem; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;}
+    
+    .section { padding: 5rem 5%; max-width: 1200px; margin: 0 auto; }
+    .section-title { text-align: center; font-size: 3rem; color: var(--accent); margin-bottom: 3rem; }
+    
+    /* Menu */
+    .menu-category { margin-bottom: 4rem; }
+    .menu-category h3 { font-size: 2rem; color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 2rem; text-align: center; }
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    @media(max-width: 768px) { .menu-grid { grid-template-columns: 1fr; } }
+    .menu-item { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px dotted #333; padding-bottom: 10px; }
+    .menu-item-info h4 { font-size: 1.3rem; margin-bottom: 5px; color: var(--text); }
+    .menu-item-info p { font-size: 0.9rem; color: #888; font-style: italic; }
+    .menu-item-price { font-size: 1.3rem; color: var(--accent); font-weight: bold; }
+
+    /* Footer */
+    footer { background: #000; padding: 3rem 5%; text-align: center; border-top: 1px solid #333; }
+    footer a { color: #888; text-decoration: none; display: inline-block; margin-top: 10px;}
+    footer a:hover { color: var(--accent); }
+    
+    /* Chat Widget (Improved) */
+    .chat-widget {
+      position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+      display: flex; flex-direction: column; align-items: flex-end;
+    }
+    .chat-toggle {
+      width: 60px; height: 60px; border-radius: 50%; background: var(--primary);
+      color: #fff; display: flex; justify-content: center; align-items: center;
+      font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      border: none; transition: transform 0.3s;
+    }
+    .chat-toggle:hover { transform: scale(1.05); }
+    .chat-window {
+      width: 300px; height: 400px; background: #fff; border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; flex-direction: column;
+      margin-bottom: 15px; border: 1px solid #333; overflow: hidden;
+    }
+    .chat-window.open { display: flex; }
+    .chat-header {
+      padding: 1rem; background: var(--primary); color: #fff; font-family: 'Playfair Display', serif; font-size: 1.2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .chat-header-close { cursor: pointer; font-size: 1.2rem; }
+    .chat-body { flex: 1; padding: 1rem; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px; }
+    .msg { padding: 10px 15px; border-radius: 20px; font-size: 0.9rem; max-width: 85%; color: #333; font-family: 'Lato', sans-serif;}
+    .msg.bot { background: #e0e0e0; align-self: flex-start; }
+    .msg.user { background: var(--primary); color: #fff; align-self: flex-end; }
+    .chat-input { display: flex; padding: 10px; border-top: 1px solid #eee; background:#fff;}
+    .chat-input input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+    .chat-input button { background: var(--accent); color: #fff; border: none; width: 40px; border-radius: 50%; cursor: pointer; margin-left: 10px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Nirven Cuisine</div>
+    <div style="color: var(--accent);">Reservas: +51 987 654 321</div>
+  </nav>
+
+  <section class="hero">
+    <h1>Sabores que cautivan</h1>
+    <p>Alta cocina peruana e internacional</p>
+  </section>
+
+  <section class="section" id="menu">
+    <h2 class="section-title">Nuestro Menú</h2>
+    <div id="menu-container">
+      <!-- Llenado vía JS -->
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo" style="margin-bottom: 1rem; font-size: 1.5rem;">Nirven Cuisine</div>
+    <p style="color: #666; margin-bottom: 1rem;">© 2026 Todos los derechos reservados.</p>
+    <a href="reclamaciones.html">Libro de Reclamaciones</a>
+  </footer>
+
+  <!-- Chat Widget -->
+  <div class="chat-widget">
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <span>Asistente Nirven</span>
+        <span class="chat-header-close" onclick="toggleChat()">✕</span>
+      </div>
+      <div class="chat-body" id="chat-body">
+        <div class="msg bot">¡Bienvenido a Nirven Cuisine! ¿Deseas hacer una reserva para hoy o ver nuestra carta de vinos?</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="msg-input" placeholder="Escribe aquí..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+    <button class="chat-toggle" onclick="toggleChat()">💬</button>
+  </div>
+
+  <script src="data/restaurant_data.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof restaurantData !== 'undefined') {
+        renderMenu(restaurantData.menu);
+      }
+    });
+
+    function renderMenu(menuList) {
+      const container = document.getElementById('menu-container');
+      container.innerHTML = menuList.map(cat => `
+        <div class="menu-category">
+          <h3>${cat.category}</h3>
+          <div class="menu-grid">
+            ${cat.items.map(item => `
+              <div class="menu-item">
+                <div class="menu-item-info">
+                  <h4>${item.name}</h4>
+                  <p>${item.description}</p>
+                </div>
+                <div class="menu-item-price">S/ ${item.price}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Chat logic
+    function toggleChat() {
+      const cw = document.getElementById('chat-window');
+      cw.classList.toggle('open');
+    }
+
+    function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
+
+    function sendMessage() {
+      const input = document.getElementById('msg-input');
+      const text = input.value.trim();
+      if(!text) return;
+      const chatBody = document.getElementById('chat-body');
+      chatBody.innerHTML += `<div class="msg user">${text}</div>`;
+      input.value = '';
+      
+      setTimeout(() => {
+        chatBody.innerHTML += `<div class="msg bot">Revisando disponibilidad de mesas... En breve te confirmo.</div>`;
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

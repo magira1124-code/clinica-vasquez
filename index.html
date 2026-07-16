@@ -1,106 +1,639 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clínica de los Vásquez</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clínica de los Vásquez | Salud y Bienestar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+    
+    :root {
+      --primary: #004d99; /* Blue */
+      --secondary: #003366; /* Darker blue */
+      --accent: #f0f4f8; /* Light gray */
+      --bg: #ffffff; /* White */
+      --text: #333333;
+      --light-text: #666666;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg); color: var(--text);
+      font-family: 'Inter', sans-serif; line-height: 1.6;
+    }
+    
+    .navbar {
+      background: #fff; padding: 1rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { text-decoration: none; color: var(--text); font-weight: 600; }
+    
+    .hero {
+      position: relative;
+      padding: 8rem 5%;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      animation: sliderFade 30s infinite;
+    }
+    @keyframes sliderFade {
+      0%, 25% { background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80'); }
+      33%, 58% { background-image: url('https://images.unsplash.com/photo-1551076805-e18690c5e53b?auto=format&fit=crop&q=80'); }
+      66%, 91% { background-image: url('https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80'); }
+      100% { background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80'); }
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 77, 153, 0.7); /* Blue semi-transparent overlay */
+      z-index: 0;
+    }
+    .hero h1, .hero p, .hero button { z-index: 1; position: relative; }
+    .hero h1 { font-size: 3.5rem; color: #fff; margin-bottom: 1rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.4); position: relative; }
+    .hero p { font-size: 1.2rem; color: #f0f4f8; max-width: 600px; margin: 0 auto 2rem; text-shadow: 1px 1px 5px rgba(0,0,0,0.4); position: relative; }
+    .btn {
+      padding: 0.75rem 1.5rem; background: #fff; color: var(--primary);
+      border: 2px solid #fff; border-radius: 8px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: 0.3s; position: relative;
+    }
+    .btn:hover { background: var(--primary); color: #fff; }
+    
+    .section { padding: 4rem 5%; }
+    .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 2rem; color: var(--primary); cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .section-title::after { content: '▼'; font-size: 1.2rem; transition: transform 0.3s; }
+    .section-title.collapsed::after { transform: rotate(-90deg); }
+    .collapsible-content { overflow: hidden; transition: max-height 0.4s ease-out, opacity 0.4s; max-height: 2000px; opacity: 1; }
+    .collapsible-content.collapsed { max-height: 0; opacity: 0; margin-bottom: 0; padding-bottom: 0; }
+    
+    /* Info Banner */
+    .info-banner {
+      background: var(--primary); color: #fff; padding: 2rem 5%;
+      display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;
+    }
+    .info-item { text-align: center; }
+    .info-item h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+    /* Facilities Layout */
+    .facilities-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px; margin-bottom: 3rem;
+    }
+    .facility-box {
+      background: #fff; border-left: 4px solid var(--primary);
+      padding: 1rem; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      font-weight: 600; text-align: center;
+    }
+    .independent-building {
+      background: var(--accent); padding: 2rem; border-radius: 12px;
+      text-align: center; border: 2px dashed var(--primary); margin-top: 2rem;
+    }
+
+    /* Promo Card */
+    .promo-card {
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .promo-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .promo-card .price {
+        margin-top: 1.5rem;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    .promo-card .price span {
+        font-size: 1rem;
+        text-decoration: line-through;
+        opacity: 0.7;
+        margin-left: 0.5rem;
+    }
+
+    /* Specialties Dropdown */
+    .specialties-container {
+      max-width: 600px; margin: 0 auto; background: #fff;
+      border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); overflow: hidden;
+    }
+    .specialty-item {
+      padding: 1rem 1.5rem; border-bottom: 1px solid #eee;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .specialty-item:last-child { border-bottom: none; }
+    .specialty-item strong { font-size: 1.1rem; }
+    .specialty-item small { color: var(--light-text); }
+    
+    /* Rol Médico & Especialidades */
+    .rol-medico { max-width: 1200px; margin: 0 auto; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .doctor-row {
+      background: #fff; padding: 1.5rem; border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s;
+    }
+    .doctor-row:hover { transform: translateY(-5px); }
+    .doc-photo { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem; border: 3px solid var(--primary); }
+    .doc-name { font-size: 1.2rem; font-weight: 700; color: var(--secondary); margin-bottom: 0.2rem; }
+    .doc-spec { display: inline-block; background: rgba(0, 77, 153, 0.1); color: var(--primary); padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.85rem; margin-bottom: 0.8rem; font-weight: 600; }
+    .doc-hours { font-size: 0.95rem; color: #555; }
+    
+    /* Footer */
+    footer { background: #111; color: #fff; padding: 3rem 5%; text-align: center; }
+    footer a { color: #ccc; text-decoration: none; margin-top: 1rem; display: inline-block; }
+
+    /* Modal Booking */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6); display: none;
+      align-items: center; justify-content: center; z-index: 10000; /* Increased z-index */
+    }
+    .modal { background: #fff; padding: 2rem; border-radius: 8px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .modal h2 { color: var(--secondary); margin-bottom: 1.5rem; text-align: center; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--text); font-size: 0.9rem; }
+    .form-group input, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; }
+    .slots-container { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .slot-btn { padding: 0.5rem 1rem; border: 1px solid var(--primary); background: transparent; color: var(--primary); border-radius: 4px; cursor: pointer; transition: 0.3s; }
+    .slot-btn:hover, .slot-btn.selected { background: var(--primary); color: #fff; }
+    
+    .modal-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+    .modal-actions button { flex: 1; padding: 1rem; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 1rem; }
+    .btn-submit { background: var(--primary); color: #fff; }
+    .btn-submit:hover { background: var(--secondary); }
+    .btn-cancel { background: #e0e0e0; color: #333; }
+    .btn-cancel:hover { background: #d0d0d0; }
+
+    /* Botón flotante WhatsApp */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 1000;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+    .whatsapp-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* Chat Widget (Improved) */
+    .chat-widget {
+      position: fixed; bottom: 100px; right: 2rem; z-index: 9999;
+      display: flex; flex-direction: column; align-items: flex-end;
+    }
+    .chat-toggle {
+      width: 60px; height: 60px; border-radius: 50%; background: var(--primary);
+      color: #fff; display: flex; justify-content: center; align-items: center;
+      font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      border: none; transition: transform 0.3s;
+    }
+    .chat-toggle:hover { transform: scale(1.05); }
+    .chat-window {
+      width: 300px; height: 400px; background: #fff; border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column;
+      margin-bottom: 15px; border: 1px solid #eee; overflow: hidden;
+    }
+    .chat-window.open { display: flex; }
+    .chat-header {
+      padding: 1rem; background: var(--primary); color: #fff; font-weight: 600;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .chat-header-close { cursor: pointer; font-size: 1.2rem; }
+    .chat-body { flex: 1; padding: 1rem; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px; }
+    .chat-input { display: flex; padding: 10px; border-top: 1px solid #eee; background: #fff; }
+    .chat-input input { flex: 1; padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
+    .chat-input button { background: var(--primary); color: #fff; border: none; width: 35px; border-radius: 50%; cursor: pointer; margin-left: 10px; }
+    .msg { padding: 8px 12px; border-radius: 15px; font-size: 0.9rem; max-width: 85%; }
+    .msg.bot { background: #fff; border: 1px solid #eee; align-self: flex-start; }
+    .msg.user { background: var(--primary); color: #fff; align-self: flex-end; }
+    
+    /* Responsiveness (Mobile & Tablets) */
+    @media (max-width: 768px) {
+      .navbar { flex-direction: column; gap: 10px; padding: 1rem; }
+      .nav-links { flex-wrap: wrap; justify-content: center; gap: 10px; }
+      .hero { padding: 4rem 5%; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero p { font-size: 1rem; }
+      .info-banner { flex-direction: column; text-align: center; }
+      .form-group[style*="display: flex"] { flex-direction: column; gap: 0 !important; }
+      .form-group[style*="display: flex"] > div { margin-bottom: 1rem; }
+      .whatsapp-btn, .chat-toggle { width: 50px; height: 50px; font-size: 1.5rem; }
+      .whatsapp-btn { bottom: 1.5rem; right: 1.5rem; }
+      .chat-widget { bottom: 80px; right: 1.5rem; }
+      .chat-window { width: 260px; height: 350px; }
+      .modal { padding: 1.5rem; }
+      .modal-actions { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-    <header class="navbar">
-        <div class="logo">🩺 Clínica de los Vásquez</div>
-        <nav>
-            <a href="#especialidades">Especialidades</a>
-            <a href="#staff">Staff Médico</a>
-            <a href="#promociones">Promociones</a>
-            <a href="https://wa.me/51974071766?text=Hola,%20quiero%20agendar%20una%20cita" class="btn-primary">Agendar por WhatsApp</a>
-        </nav>
-    </header>
 
-    <section class="hero" id="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Tu Salud en Manos de Expertos</h1>
-            <p>Atención médica de primera calidad, tecnología avanzada y un equipo humano dedicado a tu bienestar.</p>
-            <a href="https://wa.me/51974071766?text=Hola,%20quiero%20agendar%20una%20cita" class="btn-large">Agendar Cita con Vasi (IA)</a>
-        </div>
-    </section>
+  <nav class="navbar">
+    <div class="logo">🩺 Clínica de los Vásquez</div>
+    <div class="nav-links">
+      <a href="#especialidades">Especialidades</a>
+      <a href="#rol">Staff Médico</a>
+      <a href="#promociones">Promociones</a>
+      <a href="https://wa.me/51974071766?text=Hola,%20quiero%20agendar%20una%20cita" style="background: #0f766e; color: #fff; padding: 0.5rem 1rem; border-radius: 6px; font-weight: bold;">Agendar por WhatsApp</a>
+    </div>
+  </nav>
 
-    <section class="section" id="especialidades">
-        <h2 class="section-title">Nuestras Especialidades</h2>
-        <div class="grid-container">
-            <div class="card">
-                <h3>🫀 Cardiología</h3>
-                <p>Cuidado integral de tu corazón con los mejores especialistas y equipos.</p>
-            </div>
-            <div class="card">
-                <h3>🦴 Traumatología</h3>
-                <p>Diagnóstico y tratamiento de lesiones del sistema musculoesquelético.</p>
-            </div>
-            <div class="card">
-                <h3>👶 Pediatría</h3>
-                <p>Atención médica especializada para el sano desarrollo de tus hijos.</p>
-            </div>
-            <div class="card">
-                <h3>🩺 Gastroenterología</h3>
-                <p>Cuidado de tu sistema digestivo con tecnología de vanguardia.</p>
-            </div>
-        </div>
-    </section>
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <h1>Tu salud, nuestra prioridad.</h1>
+    <p>Tecnología de vanguardia y atención médica de primer nivel para cuidar de ti y tu familia.</p>
+    <button class="btn" onclick="openModal()">Reservar Cita Ahora</button>
+  </section>
 
-    <section class="section bg-light" id="staff">
-        <h2 class="section-title">Nuestro Staff Médico</h2>
-        <div class="grid-container" id="staff-container">
-            <!-- Cargado por JS -->
-            <div class="staff-card">
-                <div class="staff-img-placeholder">👨‍⚕️</div>
-                <h3>Dr. Alberto Ruiz</h3>
-                <p class="specialty">Cardiología</p>
-                <p class="schedule">Lunes a Viernes</p>
-            </div>
-            <div class="staff-card">
-                <div class="staff-img-placeholder">👩‍⚕️</div>
-                <h3>Dra. María Sánchez</h3>
-                <p class="specialty">Reumatología</p>
-                <p class="schedule">Martes y Jueves</p>
-            </div>
-        </div>
-    </section>
+  <div class="info-banner">
+    <div class="info-item">
+      <h3>Atención Ambulatoria</h3>
+      <p id="ambulatory-hours">8:00 AM - 8:00 PM</p>
+    </div>
+    <div class="info-item">
+      <h3>Emergencias</h3>
+      <p>24 Horas / 7 Días</p>
+    </div>
+  </div>
 
-    <section class="section" id="promociones">
-        <h2 class="section-title">Paquetes Promocionales</h2>
-        <div class="grid-container">
-            <div class="promo-card">
-                <h3>Paquete Integral Gastro</h3>
-                <p>Consulta + Perfil Lipídico + Ecografía Abdominal</p>
-                <div class="price">S/ 180 <span>Normal S/ 280</span></div>
-            </div>
-            <div class="promo-card">
-                <h3>Paquete Cardio</h3>
-                <p>Consulta + Electrocardiograma + Riesgo Quirúrgico</p>
-                <div class="price">S/ 150 <span>Normal S/ 250</span></div>
-            </div>
-        </div>
-    </section>
+  <section class="section" id="instalaciones" style="background: #fff;">
+    <h2 class="section-title">Infraestructura Médica</h2>
+    <div class="facilities-grid" id="facilities-grid">
+      <!-- Inyectado vía JS -->
+    </div>
+    <div class="independent-building" id="independent-building">
+      <!-- Inyectado vía JS -->
+    </div>
+  </section>
 
-    <footer>
-        <div class="footer-content">
-            <div>
-                <h3>Clínica de los Vásquez</h3>
-                <p>Prolongación Lima 703, antes de los Registros Públicos.</p>
-                <p>Teléfono: 916425645</p>
-            </div>
-            <div>
-                <h3>Atención 24/7</h3>
-                <p>Emergencias siempre abiertas. Atención ambulatoria de 7 AM a 11 PM.</p>
-            </div>
-        </div>
-        <div style="text-align: center; padding-top: 2rem; opacity: 0.7;">
-            &copy; 2026 Clínica de los Vásquez - Impulsado por Vasi (Nirven Node Labs)
-        </div>
-    </footer>
+  <section class="section" id="especialidades">
+    <h2 class="section-title" onclick="toggleSection('specialties-list', this)">Nuestras Especialidades</h2>
+    <div class="rol-medico collapsible-content" id="specialties-list">
+      <!-- Inyectado vía JS -->
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <section class="section" style="background: var(--accent);" id="rol">
+    <h2 class="section-title" onclick="toggleSection('doctors-schedule', this)">Rol de Médicos del Día</h2>
+    <div class="rol-medico collapsible-content" id="doctors-schedule">
+      <!-- Inyectado vía JS -->
+    </div>
+  </section>
+
+  <section class="section" id="promociones">
+      <h2 class="section-title" onclick="toggleSection('promociones-grid', this)">Paquetes Promocionales</h2>
+      <div class="facilities-grid collapsible-content" id="promociones-grid">
+          <div class="promo-card">
+              <h3>Paquete Integral Gastro</h3>
+              <p>Consulta + Perfil Lipídico + Ecografía Abdominal</p>
+              <div class="price">S/ 180 <span>Normal S/ 280</span></div>
+          </div>
+          <div class="promo-card">
+              <h3>Paquete Cardio</h3>
+              <p>Consulta + Electrocardiograma + Riesgo Quirúrgico</p>
+              <div class="price">S/ 150 <span>Normal S/ 250</span></div>
+          </div>
+          <div class="promo-card">
+              <h3>Chequeo Preventivo</h3>
+              <p>Laboratorio Completo + Evaluación General</p>
+              <div class="price">S/ 120 <span>Normal S/ 200</span></div>
+          </div>
+          <div class="promo-card">
+              <h3>Paquete Pediátrico</h3>
+              <p>Control Niño Sano + Descarte Anemia</p>
+              <div class="price">S/ 90 <span>Normal S/ 150</span></div>
+          </div>
+      </div>
+  </section>
+
+
+  <footer>
+    <div class="logo" style="color: #fff; margin-bottom: 1rem;">Clínica de los Vásquez</div>
+    <p>© 2026 Clínica de los Vásquez. Todos los derechos reservados.</p>
+    <a href="reclamaciones.html">📘 Libro de Reclamaciones</a>
+  </footer>
+
+  <!-- Modal Reserva -->
+  <div class="modal-overlay" id="booking-modal">
+    <div class="modal">
+      <h2>Agendar Turno</h2>
+      <div class="form-group" style="display: flex; gap: 1rem;">
+        <div style="flex: 1;">
+          <label>Nombres</label>
+          <input type="text" id="pat-name" placeholder="Ej. Juan" required>
+        </div>
+        <div style="flex: 1;">
+          <label>Apellidos</label>
+          <input type="text" id="pat-surname" placeholder="Ej. Pérez" required>
+        </div>
+      </div>
+      <div class="form-group" style="display: flex; gap: 1rem;">
+        <div style="flex: 1;">
+          <label>N° DNI</label>
+          <input type="text" id="pat-dni" placeholder="Ej. 70000000" required>
+        </div>
+        <div style="flex: 1;">
+          <label>Celular (WhatsApp)</label>
+          <input type="text" id="pat-phone" placeholder="Ej. +51999999999" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Médico</label>
+        <select id="doctor-select" onchange="checkSlots()">
+          <option value="">Seleccione un médico</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fecha</label>
+        <input type="date" id="date-select" onchange="checkSlots()">
+      </div>
+      <div class="form-group">
+        <label>Turnos Disponibles</label>
+        <div id="slots-container" class="slots-container">
+          <p style="color: var(--light-text); font-size: 0.9rem;">Seleccione médico y fecha para ver horarios.</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-submit" onclick="submitBooking()">Agendar</button>
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Chat Widget -->
+  <div class="chat-widget">
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        <span>Asistente Médico Virtual</span>
+        <span class="chat-header-close" onclick="toggleChat()">✕</span>
+      </div>
+      <div class="chat-body" id="chat-body">
+        <div class="msg bot">Hola, soy el asistente de la Clínica Nirven. ¿Deseas agendar una cita?</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="msg-input" placeholder="Escribe aquí..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+    <button class="chat-toggle" onclick="toggleChat()">💬</button>
+  </div>
+
+  <script src="data/clinic_data.js"></script>
+  
+  <script>
+    function toggleSection(id, headerElement) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.toggle('collapsed');
+        headerElement.classList.toggle('collapsed');
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof clinicData !== 'undefined') {
+        renderFacilities(clinicData.facilities, clinicData.independent_building);
+        renderSpecialties(clinicData.specialties);
+        loadLiveSchedule();
+      } else {
+        console.error("Error: clinicData no está definido.");
+      }
+    });
+
+    function renderFacilities(facilities, independent) {
+      document.getElementById('facilities-grid').innerHTML = facilities.map(f => 
+        `<div class="facility-box">${f}</div>`
+      ).join('');
+
+      document.getElementById('independent-building').innerHTML = `
+        <h3 style="color: var(--primary); margin-bottom: 10px;">Edificio Independiente y Especializado</h3>
+        <p>Contamos con un anexo exclusivo diseñado para brindar comodidad total en nuestras áreas de:</p>
+        <h4 style="font-size: 1.3rem; margin-top: 10px; color: #333;">
+          ${independent.join(' &nbsp;|&nbsp; ')}
+        </h4>
+      `;
+    }
+
+    function renderSpecialties(specs) {
+      const list = document.getElementById('specialties-list');
+      list.innerHTML = specs.map(s => `
+        <div class="doctor-row" style="justify-content: center; min-height: 150px;">
+          <div style="font-size: 3.5rem; margin-bottom: 10px;">${s.icon}</div>
+          <div class="doc-name">${s.name}</div>
+          <div class="doc-hours" style="color: var(--light-text);">${s.availability}</div>
+        </div>
+      `).join('');
+    }
+
+    async function loadLiveSchedule() {
+      const daysMap = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+      const today = daysMap[new Date().getDay()];
+      const container = document.getElementById('doctors-schedule');
+      container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Cargando rol médico...</p>';
+      
+      try {
+        const res = await fetch('http://localhost:3001/api/doctors/published');
+        const docs = await res.json();
+        
+        const todayDocs = docs.filter(d => 
+          d.schedule_rules && (d.schedule_rules.includes(today) || d.schedule_rules.includes('Todos los días') || d.schedule_rules.toLowerCase().includes('lunes a viernes'))
+        );
+        
+        if (todayDocs.length === 0) {
+          container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No hay médicos programados para hoy.</p>';
+          return;
+        }
+
+        const randomPhotos = [
+          'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=128&h=128&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=128&h=128&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1594824436998-a62629b35b6b?w=128&h=128&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=128&h=128&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=128&h=128&fit=crop&q=80'
+        ];
+
+        container.innerHTML = todayDocs.map((d, index) => {
+          let hoursDisplay = d.schedule_rules;
+          if (d.schedule_rules.includes(' | ')) {
+            hoursDisplay = d.schedule_rules.split(' | ')[1];
+          }
+          
+          const fallbackIndex = (d.id || index) % randomPhotos.length;
+          const defaultAvatar = randomPhotos[fallbackIndex];
+          // Intenta cargar la foto real de la carpeta, si falla usa el avatar generado
+          const photoUrl = `img/publicidad/fotos_rol/${d.id}/foto.jpg`;
+          
+          return `
+          <div class="doctor-row">
+            <img src="${photoUrl}" onerror="this.onerror=null; this.src='${defaultAvatar}';" alt="${d.name}" class="doc-photo" />
+            <div class="doc-name">${d.name}</div>
+            <div class="doc-spec">${d.specialty}</div>
+            <div class="doc-hours">
+              🗓 Hoy: <strong>${hoursDisplay}</strong>
+            </div>
+          </div>
+        `}).join('');
+      } catch (e) {
+        container.innerHTML = '<p style="text-align:center; color:#ef4444; grid-column: 1/-1;">Error al cargar el rol médico.</p>';
+      }
+    }
+
+    async function loadLiveDoctors() {
+      try {
+        const res = await fetch('http://localhost:3001/api/doctors/published');
+        const docs = await res.json();
+        const select = document.getElementById('doctor-select');
+        select.innerHTML = '<option value="">Seleccione un Médico...</option>';
+        docs.forEach(d => {
+          select.innerHTML += `<option value="${d.id}">${d.name} (${d.specialty})</option>`;
+        });
+      } catch (e) {
+        console.error("Error loading doctors from API", e);
+      }
+    }
+
+    // === Booking Modal Logic ===
+    let selectedSlot = null;
+
+    async function checkSlots() {
+      const docId = document.getElementById('doctor-select').value;
+      const date = document.getElementById('date-select').value;
+      const container = document.getElementById('slots-container');
+      selectedSlot = null;
+
+      if (!docId || !date) {
+        container.innerHTML = '<p style="color: var(--light-text); font-size: 0.9rem;">Seleccione médico y fecha para ver horarios.</p>';
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:3001/api/slots?doctor_id=${docId}&date=${date}`);
+        const slots = await res.json();
+
+        if (slots.length === 0) {
+          container.innerHTML = '<p style="color: red; font-size: 0.9rem;">No hay turnos generados para este día.</p>';
+          return;
+        }
+
+        container.innerHTML = '';
+        slots.forEach(slot => {
+          if (slot.status === 'available') {
+            const btn = document.createElement('button');
+            btn.className = 'slot-btn';
+            btn.innerText = `${slot.start_time}`;
+            btn.onclick = () => {
+              document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+              btn.classList.add('selected');
+              selectedSlot = slot;
+            };
+            container.appendChild(btn);
+          }
+        });
+        
+        if(container.innerHTML === '') {
+          container.innerHTML = '<p style="color: red; font-size: 0.9rem;">Todos los turnos están ocupados.</p>';
+        }
+
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = '<p style="color: red; font-size: 0.9rem;">Error al cargar horarios.</p>';
+      }
+    }
+
+    async function submitBooking() {
+      const docSelect = document.getElementById('doctor-select');
+      const docId = docSelect.value;
+      const date = document.getElementById('date-select').value;
+      const name = document.getElementById('pat-name').value;
+      const surname = document.getElementById('pat-surname').value;
+      const dni = document.getElementById('pat-dni').value;
+      const phone = document.getElementById('pat-phone').value;
+
+      if (!name || !surname || !dni || !phone || !docId || !date || !selectedSlot) {
+        alert("Por favor complete todos los datos y seleccione un horario disponible.");
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:3001/api/appointments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            doctor_id: docId,
+            date: date,
+            time: selectedSlot.start_time,
+            slot_id: selectedSlot.id,
+            name: name,
+            surname: surname,
+            dni: dni,
+            phone: phone
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          alert(`¡Cita agendada con éxito!\nSe enviará un mensaje de confirmación por WhatsApp a ${phone}.`);
+          closeModal();
+        } else {
+          alert("Hubo un error al agendar la cita.");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Error de conexión con el servidor.");
+      }
+    }
+
+    function openModal() { 
+      document.getElementById('booking-modal').style.display = 'flex'; 
+      loadLiveDoctors();
+    }
+    
+    function closeModal() { 
+      document.getElementById('booking-modal').style.display = 'none'; 
+      selectedSlot = null;
+    }
+
+    // Chat logic
+    function toggleChat() {
+      const cw = document.getElementById('chat-window');
+      cw.classList.toggle('open');
+    }
+
+    function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
+
+    function sendMessage() {
+      const input = document.getElementById('msg-input');
+      const text = input.value.trim();
+      if(!text) return;
+      const chatBody = document.getElementById('chat-body');
+      chatBody.innerHTML += `<div class="msg user">${text}</div>`;
+      input.value = '';
+      
+      setTimeout(() => {
+        chatBody.innerHTML += `<div class="msg bot">Procesando tu solicitud... En breve te responderemos.</div>`;
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 1000);
+    }
+  </script>
 </body>
 </html>

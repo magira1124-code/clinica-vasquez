@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libro de Reclamaciones | Nirven</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+    body { font-family: 'Inter', sans-serif; background: #f4f7f6; color: #333; margin: 0; padding: 2rem; }
+    .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 3rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    h1 { color: #d32f2f; border-bottom: 2px solid #eee; padding-bottom: 1rem; margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+    input, textarea, select { width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+    button { background: #d32f2f; color: #fff; border: none; padding: 1rem 2rem; font-size: 1.1rem; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
+    button:hover { background: #b71c1c; }
+    .back-link { display: inline-block; margin-bottom: 2rem; color: #0066cc; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="javascript:history.back()" class="back-link">← Volver</a>
+    <h1>Libro de Reclamaciones Virtual</h1>
+    <p style="margin-bottom: 2rem; color: #666;">Conforme al Código de Protección y Defensa del Consumidor, este establecimiento cuenta con un Libro de Reclamaciones a su disposición.</p>
+    
+    <form onsubmit="alert('Reclamo registrado exitosamente. Recibirá una copia en su correo.'); return false;">
+      <div class="form-group">
+        <label>Empresa</label>
+        <select required>
+          <option value="clinica">Clínica Nirven</option>
+          <option value="hotel">Nirven Grand Hotel</option>
+          <option value="restaurant">Nirven Cuisine</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Nombre Completo</label>
+        <input type="text" required>
+      </div>
+      <div class="form-group">
+        <label>DNI / CE</label>
+        <input type="text" required>
+      </div>
+      <div class="form-group">
+        <label>Correo Electrónico</label>
+        <input type="email" required>
+      </div>
+      <div class="form-group">
+        <label>Tipo</label>
+        <select required>
+          <option value="reclamo">Reclamo (Disconformidad relacionada a los productos o servicios)</option>
+          <option value="queja">Queja (Disconformidad no relacionada a los productos o servicios)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Detalle del reclamo / queja</label>
+        <textarea rows="5" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Pedido de solución</label>
+        <textarea rows="3" required></textarea>
+      </div>
+      <button type="submit">Enviar Reclamo</button>
+    </form>
+  </div>
+</body>
+</html>
